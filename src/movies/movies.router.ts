@@ -3,8 +3,9 @@
  */
 
 import express, { Request, Response } from 'express';
-import * as MovieService from './movies.service';
+// import * as MovieService from './movies.service';
 import { BaseMovie, Movie } from './movie.interface';
+import { MovieService } from './movies.service';
 
 /**
  * Router Definition
