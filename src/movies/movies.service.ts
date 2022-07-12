@@ -44,43 +44,87 @@ let movies: Movies = {
 /**
  * Service Methods
  */
-
-export const findAll = async (): Promise<Movie[]> => Object.values(movies);
-
-export const find = async (id: number): Promise<Movie> => movies[id];
-
-export const create = async (newMovie: BaseMovie): Promise<Movie> => {
-  const id = new Date().valueOf();
-
-  movies[id] = {
-    id,
-    ...newMovie,
-  };
-
-  return movies[id];
-};
-
-export const update = async (
-  id: number,
-  movieUpdate: BaseMovie
-): Promise<Movie | null> => {
-  const item = await find(id);
-
-  if (!item) {
-    return null;
+export class MovieService {
+  //  async findAll() {
+  //     return Object.values(movies);
+  //   }
+  static findAll(): Movie[] {
+    return Object.values(movies);
+  }
+  static find(id: number): Movie {
+    return movies[id];
   }
 
-  movies[id] = { id, ...movieUpdate };
+  static create(newMovie: BaseMovie): Movie {
+    const id = new Date().valueOf();
 
-  return movies[id];
-};
+    movies[id] = {
+      id,
+      ...newMovie,
+    };
 
-export const remove = async (id: number): Promise<null | void> => {
-  const movieEl = await find(id);
-
-  if (!movieEl) {
-    return null;
+    return movies[id];
   }
 
-  delete movies[id];
-};
+  static update(id: number, movieUpdate: BaseMovie): Movie | null {
+    const item = MovieService.find(id);
+
+    if (!item) {
+      return null;
+    }
+
+    movies[id] = { id, ...movieUpdate };
+
+    return movies[id];
+  }
+
+  static remove(id: number): null | void {
+    const movieEl = MovieService.find(id);
+
+    if (!movieEl) {
+      return null;
+    }
+
+    delete movies[id];
+  }
+}
+
+// export const findAll = async (): Promise<Movie[]> => Object.values(movies);
+
+// export const find = async (id: number): Promise<Movie> => movies[id];
+
+// export const create = async (newMovie: BaseMovie): Promise<Movie> => {
+//   const id = new Date().valueOf();
+
+//   movies[id] = {
+//     id,
+//     ...newMovie,
+//   };
+
+//   return movies[id];
+// };
+
+// export const update = async (
+//   id: number,
+//   movieUpdate: BaseMovie
+// ): Promise<Movie | null> => {
+//   const item = await find(id);
+
+//   if (!item) {
+//     return null;
+//   }
+
+//   movies[id] = { id, ...movieUpdate };
+
+//   return movies[id];
+// };
+
+// export const remove = async (id: number): Promise<null | void> => {
+//   const movieEl = await find(id);
+
+//   if (!movieEl) {
+//     return null;
+//   }
+
+//   delete movies[id];
+// };
