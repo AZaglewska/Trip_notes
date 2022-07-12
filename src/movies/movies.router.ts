@@ -5,6 +5,7 @@
 import express, { Request, Response } from 'express';
 // import * as MovieService from './movies.service';
 import { BaseMovie, Movie } from './movie.interface';
+import { MoviesController } from './movies.controller';
 import { MovieService } from './movies.service';
 
 /**
@@ -30,21 +31,7 @@ movieRouter.get('/', async (req: Request, res: Response) => {
 
 // GET items/:id
 
-movieRouter.get('/:id', async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id, 10);
-
-  try {
-    const movie: Movie = await MovieService.find(id);
-
-    if (movie) {
-      return res.status(200).send(movie);
-    }
-
-    res.status(404).send('movie not found');
-  } catch (e: any) {
-    res.status(500).send(e.message);
-  }
-});
+movieRouter.get('/:id', MoviesController.find);
 
 // POST items
 
