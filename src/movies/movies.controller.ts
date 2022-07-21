@@ -1,7 +1,19 @@
 import { Request, Response } from 'express';
+import { Movie } from './movie.interface';
 import { MovieService } from './movies.service';
 
 export class MoviesController {
+
+  public static findAll(req: Request, res: Response) {
+    try {
+      const movies: Movie[] = MovieService.findAll();
+
+      res.status(200).send(movies);
+    } catch (e: any) {
+      res.status(500).send(e.message);
+    }
+  }
+
   public static find(req: Request, res: Response) {
     const id: string = req.params.id;
 
