@@ -50,12 +50,12 @@ movieRouter.post('/', async (req: Request, res: Response) => {
 // PUT items/:id
 
 movieRouter.put('/:id', async (req: Request, res: Response) => {
-  const id: number = parseInt(req.params.id, 10);
+  const id: string = req.params.id;
 
   try {
     const movieUpdate: Movie = req.body;
 
-    const existingItem: Movie = await MovieService.find(id);
+    const existingItem = await MovieService.find(id);
 
     if (existingItem) {
       const updatedItem = await MovieService.update(id, movieUpdate);
@@ -74,7 +74,7 @@ movieRouter.put('/:id', async (req: Request, res: Response) => {
 
 movieRouter.delete('/:id', async (req: Request, res: Response) => {
   try {
-    const id: number = parseInt(req.params.id, 10);
+    const id: string = req.params.id;
     await MovieService.remove(id);
 
     res.sendStatus(204);

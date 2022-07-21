@@ -1,4 +1,5 @@
 export interface BaseMovie {
+  // id: string
   title: string;
   description: string;
   releaseDate: string;
@@ -7,5 +8,5 @@ export interface BaseMovie {
 }
 
 export interface Movie extends BaseMovie {
-  id: number;
+  id: string;
 }

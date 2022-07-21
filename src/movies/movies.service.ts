@@ -3,15 +3,15 @@
  */
 
 import { BaseMovie, Movie } from './movie.interface';
-import { Movies } from './movies.interface';
+import { randomUUID } from 'crypto';
 
 /**
  * In-Memory Store
  */
 
-let movies: Movies = {
-  1: {
-    id: 1,
+let movies: Movie[] = [
+  {
+    id: '1',
     title: 'Batman Begins',
     director: 'Christopher Nolan',
     releaseDate: '2005',
@@ -20,8 +20,8 @@ let movies: Movies = {
     genres: ['action', 'sci-fi'],
   },
 
-  2: {
-    id: 2,
+  {
+    id: '2',
     title: 'The Dark Knight',
     director: 'Christopher Nolan',
     releaseDate: '2008',
@@ -30,8 +30,8 @@ let movies: Movies = {
     genres: ['action', 'crime', 'drama', 'thriller'],
   },
 
-  3: {
-    id: 3,
+  {
+    id: '3',
     title: 'The Dark Knight Rises',
     director: 'Christopher Nolan',
     releaseDate: '2012',
@@ -39,7 +39,7 @@ let movies: Movies = {
       '3: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
     genres: ['action', 'drama'],
   },
-};
+];
 
 /**
  * Service Methods
@@ -49,43 +49,43 @@ export class MovieService {
   //     return Object.values(movies);
   //   }
   static findAll(): Movie[] {
-    return Object.values(movies);
+    return movies;
   }
-  static find(id: number): Movie {
-    return movies[id];
+  static find(id: string): Movie | undefined {
+    return movies.find((el) => el.id === id);
   }
 
   static create(newMovie: BaseMovie): Movie {
-    const id = new Date().valueOf();
+    // const id = new Date().valueOf();
+    const id = randomUUID();
 
-    movies[id] = {
-      id,
-      ...newMovie,
-    };
+    // movies : string[]
+    const movieEl = { id, ...newMovie };
 
-    return movies[id];
+    movies.push(movieEl);
+
+    return movieEl;
   }
 
-  static update(id: number, movieUpdate: BaseMovie): Movie | null {
-    const item = MovieService.find(id);
+  static update(id: string, movieUpdate: BaseMovie): Movie | null {
+    // const item = MovieService.find(id);
 
-    if (!item) {
+    const index = movies.findIndex((movie) => movie.id === id);
+
+    if (index === -1) {
       return null;
     }
 
-    movies[id] = { id, ...movieUpdate };
+    movies[index] = { id, ...movieUpdate };
 
-    return movies[id];
+    return movies[index];
   }
 
-  static remove(id: number): null | void {
-    const movieEl = MovieService.find(id);
-
-    if (!movieEl) {
-      return null;
-    }
-
-    delete movies[id];
+  static remove(id: string): void {
+    movies.splice(
+      movies.findIndex((i) => i.id === id),
+      1
+    );
   }
 }
 
