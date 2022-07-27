@@ -85,7 +85,7 @@ export class MoviesController {
       //   if (el.id.includes(id)) {
       //     return MovieService.remove(id), res.status(500).send('Deleted');
       //   } else {
-      //     return res.status(404).send('Not Found');
+      //     return res.status(404).send('Not Found'); nie powinno byc
       //   }
       // });
 
