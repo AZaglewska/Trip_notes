@@ -5,6 +5,8 @@
 import express, { Request, Response } from 'express';
 // import * as MovieService from './movies.service';
 import { MoviesController } from './movies.controller';
+import { movieDataValidate } from './movie.validation';
+import { body, validationResult, check } from 'express-validator';
 
 /**
  * Router Definition
@@ -25,7 +27,12 @@ movieRouter.get('/:id', MoviesController.find);
 
 // POST items
 
-movieRouter.post('/', MoviesController.create);
+// movieDataValidate,
+movieRouter.post(
+  '/',
+  body('title').isString().withMessage('cannot be empty'),
+  MoviesController.create
+);
 
 // PUT items/:id
 

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Movie, BaseMovie } from './movie.interface';
 import { MovieService } from './movies.service';
 import createHttpError from 'http-errors';
+import { body, validationResult } from 'express-validator';
 
 export class MoviesController {
   public static findAll(req: Request, res: Response) {
@@ -32,6 +33,14 @@ export class MoviesController {
 
   public static create(req: Request, res: Response) {
     try {
+      (req: Request, res: Response) => {
+        // Finds the validation errors in this request and wraps them in an object with handy functions
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+        }
+      };
+
       const item: BaseMovie = req.body;
 
       const newItem = MovieService.create(item);
